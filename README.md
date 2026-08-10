@@ -21,4 +21,4 @@ npm run dev
 ## 배포
 
 - **클라이언트 (Vercel)**: Root Directory = `client`, `client/.env.example` 참고
-- **서버 (Heroku)**: [heroku-buildpack-monorepo](https://github.com/lstoll/heroku-buildpack-monorepo) 사용, `APP_BASE=server` 설정 후 `server/.env.example` 환경 변수 등록
+- **서버 (Heroku)**: 루트 `Procfile` + `package.json`으로 `server/` 배포, Buildpack `heroku/nodejs`만 사용, `server/.env.example` 환경 변수 등록
