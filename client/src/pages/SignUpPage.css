@@ -1,0 +1,293 @@
+.signup {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.signup__header-text {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.signup__title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: #111;
+}
+
+.signup__subtitle {
+  margin: 0;
+  color: #888;
+  font-size: 0.9375rem;
+}
+
+.signup__card {
+  border: 1px solid #ddd;
+  padding: 2.5rem 2rem;
+  background: #fff;
+}
+
+.signup__card--success {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.signup__field {
+  margin-bottom: 1.25rem;
+}
+
+.signup__field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 0.5rem;
+}
+
+.signup__field input,
+.signup__field select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  font-size: 0.875rem;
+  background: #fff;
+  color: #111;
+  box-sizing: border-box;
+}
+
+.signup__field input:focus,
+.signup__field select:focus {
+  outline: none;
+  border-color: #111;
+}
+
+.signup__inline {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.signup__inline input {
+  flex: 1;
+}
+
+.signup__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.signup__phone {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.signup__phone select {
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.signup__phone input {
+  flex: 1;
+  min-width: 0;
+}
+
+.signup__dash {
+  color: #999;
+  flex-shrink: 0;
+}
+
+.signup__verify-btn {
+  flex-shrink: 0;
+  padding: 0.75rem 1rem;
+  border: none;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.signup__verify-btn--dark {
+  background: #111;
+  color: #fff;
+}
+
+.signup__verify-btn--accent {
+  background: #a68b6a;
+  color: #fff;
+}
+
+.signup__agreements {
+  margin: 1.5rem 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.signup__agree-all {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.signup__agree-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.5rem;
+}
+
+.signup__agree-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.signup__agree-item input {
+  margin-right: 0.35rem;
+}
+
+.signup__agree-item em {
+  font-style: normal;
+  color: #a68b6a;
+  font-size: 0.75rem;
+}
+
+.signup__optional {
+  color: #999 !important;
+}
+
+.signup__detail-link {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 0.6875rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.signup__error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.signup__submit {
+  width: 100%;
+  padding: 1rem;
+  background: #a68b6a;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.signup__submit:hover:not(:disabled) {
+  background: #947a5c;
+}
+
+.signup__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.signup__sns {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.signup__sns p {
+  margin: 0 0 1rem;
+  font-size: 0.8125rem;
+  color: #888;
+}
+
+.signup__sns-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.signup__sns-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup__sns-btn--kakao {
+  background: #fee500;
+  color: #3c1e1e;
+}
+
+.signup__sns-btn--naver {
+  background: #03c75a;
+  color: #fff;
+}
+
+.signup__sns-btn--apple {
+  background: #111;
+  color: #fff;
+}
+
+.signup__success-msg {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 0.5rem;
+}
+
+.signup__success-sub {
+  color: #666;
+  margin: 0 0 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.signup__home-link {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: #a68b6a;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .signup__row {
+    grid-template-columns: 1fr;
+  }
+
+  .signup__agree-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .signup__inline,
+  .signup__phone {
+    flex-wrap: wrap;
+  }
+
+  .signup__verify-btn {
+    width: 100%;
+  }
+}

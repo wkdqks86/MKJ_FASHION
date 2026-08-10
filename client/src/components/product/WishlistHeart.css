@@ -1,0 +1,58 @@
+.wishlist-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #111;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.wishlist-heart:hover:not(:disabled) {
+  transform: scale(1.06);
+}
+
+.wishlist-heart:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.wishlist-heart--active {
+  color: #a68b6a;
+}
+
+.wishlist-heart--md {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.wishlist-heart--lg {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.wishlist-heart--title {
+  width: auto;
+  height: auto;
+  min-width: 2rem;
+  min-height: 2rem;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.wishlist-heart__icon {
+  display: block;
+}
+
+.wishlist-heart__icon--filled {
+  stroke: currentColor;
+}
