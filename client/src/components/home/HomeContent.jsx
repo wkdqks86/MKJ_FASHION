@@ -51,7 +51,12 @@ function HomeContent({ products, isLoading, error }) {
       {isLoading && (
         <p className="home-products-status">상품을 불러오는 중...</p>
       )}
-      <ProductSection title="BRAND NEW" subtitle="CATEGORY NEW" products={brandNewProducts} />
+      <ProductSection
+        sectionId="home-products"
+        title="BRAND NEW"
+        subtitle="CATEGORY NEW"
+        products={brandNewProducts}
+      />
       {!isStyleEditLoading && <TheEditSection styleEdit={styleEdit} />}
       <ProductSection title="BRAND BEST" subtitle="CATEGORY BEST" products={brandBestProducts} />
       <ProductSection title="HOT ITEM" subtitle="" products={hotItemProducts} />

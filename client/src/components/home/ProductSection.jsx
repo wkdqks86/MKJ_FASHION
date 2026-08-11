@@ -16,7 +16,7 @@ function EditImage({ product, className }) {
   )
 }
 
-function ProductSection({ title, subtitle, products, editMode = false, theEdit }) {
+function ProductSection({ title, subtitle, products, sectionId, editMode = false, theEdit }) {
   if (editMode && theEdit) {
     const [main, ...side] = [theEdit.main, ...(theEdit.side || [])]
 
@@ -55,7 +55,7 @@ function ProductSection({ title, subtitle, products, editMode = false, theEdit }
   if (products.length === 0) return null
 
   return (
-    <section className="section">
+    <section className="section" id={sectionId}>
       <div className="section__inner">
         <div className="section__header">
           <h2 className="section__title">{title}</h2>

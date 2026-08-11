@@ -1,9 +1,15 @@
 import SignUpContent from '@/components/signup/SignUpContent'
+import { useAuthRedirect } from '@/hooks/useAuthRedirect'
 import { useSignUpForm } from '@/hooks/useSignUpForm'
 import './SignUpPage.css'
 
 function SignUpPage() {
+  const { isCheckingAuth } = useAuthRedirect('/')
   const signUp = useSignUpForm()
+
+  if (isCheckingAuth) {
+    return null
+  }
 
   return (
     <SignUpContent

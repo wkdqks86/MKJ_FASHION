@@ -1,6 +1,13 @@
 import { Link } from 'react-router-dom'
+import { useAuthSession } from '@/hooks/useAuthSession'
 
 function PromoBar() {
+  const { user, isLoading } = useAuthSession()
+
+  if (isLoading || user) {
+    return null
+  }
+
   return (
     <section className="promo-bar">
       <div className="promo-bar__inner">

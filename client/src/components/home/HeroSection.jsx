@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { FALLBACK_IMAGE } from '@/constants/homeProducts'
 
 function HeroImage({ product }) {
@@ -16,6 +15,11 @@ function HeroImage({ product }) {
 }
 
 function HeroSection({ heroProduct }) {
+  const handleShopNow = (event) => {
+    event.preventDefault()
+    document.getElementById('home-products')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <section className="hero">
       <div className="hero__content">
@@ -25,7 +29,9 @@ function HeroSection({ heroProduct }) {
           시즌 오프 최대 70% 할인<br />
           MKJ FASHION 봄 컬렉션
         </p>
-        <Link to="/signup" className="hero__cta">Shop Now</Link>
+        <a href="#home-products" className="hero__cta" onClick={handleShopNow}>
+          Shop Now
+        </a>
         {heroProduct && (
           <p className="hero__featured">
             <span className="hero__featured-label">Featured</span>
