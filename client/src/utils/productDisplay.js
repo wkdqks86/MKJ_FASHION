@@ -1,6 +1,15 @@
 import { formatCategoryLabel } from '@/constants/productCategories'
 import { FALLBACK_HOME_PRODUCTS } from '@/constants/homeProducts'
 
+export function shuffleArray(items) {
+  const copy = [...items]
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[copy[i], copy[j]] = [copy[j], copy[i]]
+  }
+  return copy
+}
+
 export function mapProductForHomeCard(product) {
   const displayPrice = product.salePrice ?? product.listPrice
   const hasDiscount = product.salePrice != null && product.salePrice < product.listPrice
