@@ -704,6 +704,15 @@
 
 }
 
+.brand-live__hero--lifestyle {
+  background: #1a1a1a;
+}
+
+.brand-live__img--hero {
+  min-height: 520px;
+  object-position: center top;
+}
+
 
 
 .brand-live__badge {

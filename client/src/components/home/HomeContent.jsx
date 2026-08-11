@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
 import { KEYWORDS } from '@/constants/homeProducts'
 import { buildHomeLayout, mapProductForHomeCard, shuffleArray } from '@/utils/productDisplay'
 import { useHomeStyleEdit } from '@/hooks/useStyleEdits'
@@ -10,9 +11,10 @@ import PromoBar from './PromoBar'
 import TheEditSection from './TheEditSection'
 
 function HomeContent({ products, isLoading, error }) {
+  const location = useLocation()
   const layout = useMemo(
     () => buildHomeLayout(isLoading ? [] : products),
-    [products, isLoading]
+    [products, isLoading, location.key],
   )
   const mappedProducts = useMemo(() => {
     if (isLoading) return []
@@ -20,15 +22,15 @@ function HomeContent({ products, isLoading, error }) {
   }, [products, isLoading])
   const brandNewProducts = useMemo(
     () => shuffleArray(mappedProducts),
-    [mappedProducts],
+    [mappedProducts, location.key],
   )
   const brandBestProducts = useMemo(
     () => shuffleArray(mappedProducts),
-    [mappedProducts],
+    [mappedProducts, location.key],
   )
   const hotItemProducts = useMemo(
     () => shuffleArray(mappedProducts),
-    [mappedProducts],
+    [mappedProducts, location.key],
   )
   const { styleEdit, isLoading: isStyleEditLoading } = useHomeStyleEdit()
 

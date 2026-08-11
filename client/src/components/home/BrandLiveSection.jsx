@@ -34,8 +34,8 @@ function BrandLiveSection({ brandLive }) {
             )}
           </div>
           {hero && (
-            <div className="brand-live__hero">
-              <HomeProductImage product={hero} className="brand-live__img" />
+            <div className="brand-live__hero brand-live__hero--lifestyle">
+              <HomeProductImage product={hero} className="brand-live__img brand-live__img--hero" />
               <span className="brand-live__badge">{hero.brand}</span>
               <div className="brand-live__hero-caption">
                 <strong>{hero.name}</strong>

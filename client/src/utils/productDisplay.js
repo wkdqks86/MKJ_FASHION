@@ -42,9 +42,29 @@ function padWithFallbacks(items, count) {
   return result
 }
 
+/** 배경·연출이 있는 라이프스타일型 상품 이미지 (스튜디오 단색 배경 제외) */
+export function isLikelyLifestyleImage(imageUrl = '') {
+  const url = imageUrl.toLowerCase()
+  return (
+    url.includes('unsplash.com')
+    || url.includes('pexels.com')
+    || url.includes('images.pexels.com')
+  )
+}
+
+function pickBrandLiveHero(mappedProducts) {
+  const lifestyleFromApi = mappedProducts.filter((product) =>
+    isLikelyLifestyleImage(product.image),
+  )
+  const lifestyleFallbacks = FALLBACK_HOME_PRODUCTS.map((item) => ({ ...item }))
+  const candidates = lifestyleFromApi.length > 0 ? lifestyleFromApi : lifestyleFallbacks
+
+  return shuffleArray(candidates)[0]
+}
+
 export function buildHomeLayout(products) {
   const mapped = products.map(mapProductForHomeCard)
-  const pool = padWithFallbacks(mapped, 15)
+  const pool = shuffleArray(padWithFallbacks(mapped, 15))
 
   return {
     hasApiProducts: mapped.length > 0,
@@ -55,7 +75,7 @@ export function buildHomeLayout(products) {
     keywordSub: pool[5],
     brandLive: {
       left: [pool[6], pool[7]],
-      hero: pool[8],
+      hero: pickBrandLiveHero(mapped),
     },
     brandNew: pool.slice(0, 5),
     brandBest: pool.slice(5, 10),
