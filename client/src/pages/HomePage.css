@@ -1,3 +1,8 @@
+.home {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 /* Hero */
 
 .hero {
@@ -1246,6 +1251,10 @@
 
     min-height: 280px;
 
+    margin-bottom: calc(0.75rem * 1.5 * 2);
+
+    overflow: hidden;
+
   }
 
 
@@ -1253,6 +1262,26 @@
   .hero__product-img {
 
     height: 320px;
+
+  }
+
+
+
+  .hero__tag {
+
+    right: 1rem;
+
+    width: 100px;
+
+    height: 120px;
+
+  }
+
+
+
+  .hero__tag span {
+
+    font-size: 1.25rem;
 
   }
 
