@@ -1,22 +1,11 @@
-import { useState } from 'react'
-import { FALLBACK_IMAGE } from '@/constants/homeProducts'
-
-function LiveImage({ product, className }) {
-  const [src, setSrc] = useState(product?.image || FALLBACK_IMAGE)
-
-  return (
-    <img
-      src={src}
-      alt={product?.name || 'Brand Live'}
-      className={className}
-      loading="lazy"
-      onError={() => setSrc(FALLBACK_IMAGE)}
-    />
-  )
-}
+import HomeProductImage from '@/components/home/HomeProductImage'
 
 function BrandLiveSection({ brandLive }) {
-  const [leftTop, leftBottom] = brandLive?.left || []
+  if (!brandLive) {
+    return null
+  }
+
+  const [leftTop, leftBottom] = brandLive.left || []
   const hero = brandLive?.hero
 
   return (
@@ -27,7 +16,7 @@ function BrandLiveSection({ brandLive }) {
           <div className="brand-live__col">
             {leftTop && (
               <div className="brand-live__card">
-                <LiveImage product={leftTop} className="brand-live__img" />
+                <HomeProductImage product={leftTop} className="brand-live__img" />
                 <div className="brand-live__caption">
                   <span>{leftTop.brand}</span>
                   <strong>{leftTop.name}</strong>
@@ -36,7 +25,7 @@ function BrandLiveSection({ brandLive }) {
             )}
             {leftBottom && (
               <div className="brand-live__card">
-                <LiveImage product={leftBottom} className="brand-live__img" />
+                <HomeProductImage product={leftBottom} className="brand-live__img" />
                 <div className="brand-live__caption">
                   <span>{leftBottom.brand}</span>
                   <strong>{leftBottom.name}</strong>
@@ -46,7 +35,7 @@ function BrandLiveSection({ brandLive }) {
           </div>
           {hero && (
             <div className="brand-live__hero">
-              <LiveImage product={hero} className="brand-live__img" />
+              <HomeProductImage product={hero} className="brand-live__img" />
               <span className="brand-live__badge">{hero.brand}</span>
               <div className="brand-live__hero-caption">
                 <strong>{hero.name}</strong>

@@ -1,19 +1,4 @@
-import { useState } from 'react'
-import { FALLBACK_IMAGE } from '@/constants/homeProducts'
-
-function FeatureImage({ product, className }) {
-  const [src, setSrc] = useState(product?.image || FALLBACK_IMAGE)
-
-  return (
-    <img
-      src={src}
-      alt={product?.name || '키워드 랭킹'}
-      className={className}
-      loading="lazy"
-      onError={() => setSrc(FALLBACK_IMAGE)}
-    />
-  )
-}
+import HomeProductImage from '@/components/home/HomeProductImage'
 
 function KeywordRankingSection({ keywords, thumbProducts, mainProduct, subProduct }) {
   return (
@@ -30,22 +15,33 @@ function KeywordRankingSection({ keywords, thumbProducts, mainProduct, subProduc
             ))}
           </ol>
           <div className="ranking__visual">
-            <FeatureImage product={mainProduct} className="ranking__main-img" />
-            <div className="ranking__sub-wrap">
-              <FeatureImage product={subProduct} className="ranking__sub-img" />
-              {subProduct && (
-                <div className="ranking__sub-info">
-                  <p className="ranking__sub-brand">{subProduct.brand}</p>
-                  <p className="ranking__sub-name">{subProduct.name}</p>
-                  <p className="ranking__sub-price">₩{subProduct.price}</p>
+            {mainProduct && (
+              <div className="ranking__main-wrap">
+                <HomeProductImage product={mainProduct} className="ranking__main-img" />
+                <div className="ranking__main-info">
+                  <p className="ranking__main-brand">{mainProduct.brand}</p>
+                  <p className="ranking__main-name">{mainProduct.name}</p>
+                  <p className="ranking__main-price">₩{mainProduct.price}</p>
                 </div>
+              </div>
+            )}
+            <div className="ranking__sub-wrap">
+              {subProduct && (
+                <>
+                  <HomeProductImage product={subProduct} className="ranking__sub-img" />
+                  <div className="ranking__sub-info">
+                    <p className="ranking__sub-brand">{subProduct.brand}</p>
+                    <p className="ranking__sub-name">{subProduct.name}</p>
+                    <p className="ranking__sub-price">₩{subProduct.price}</p>
+                  </div>
+                </>
               )}
             </div>
           </div>
         </div>
         <div className="ranking__thumbs">
           {thumbProducts.map((product) => (
-            <FeatureImage
+            <HomeProductImage
               key={product.id}
               product={product}
               className="ranking__thumb"

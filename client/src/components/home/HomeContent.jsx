@@ -34,15 +34,15 @@ function HomeContent({ products, isLoading, error }) {
 
   return (
     <>
-      <HeroSection heroProduct={layout.heroProduct} />
+      <HeroSection heroProduct={isLoading ? null : layout.heroProduct} />
       <KeywordRankingSection
         keywords={KEYWORDS}
-        thumbProducts={layout.keywordThumbs}
-        mainProduct={layout.keywordMain}
-        subProduct={layout.keywordSub}
+        thumbProducts={isLoading ? [] : layout.keywordThumbs}
+        mainProduct={isLoading ? null : layout.keywordMain}
+        subProduct={isLoading ? null : layout.keywordSub}
       />
       <PromoBar />
-      <BrandLiveSection brandLive={layout.brandLive} />
+      <BrandLiveSection brandLive={isLoading ? null : layout.brandLive} />
       {error && (
         <p className="home-products-status home-products-status--error" role="alert">
           {error}

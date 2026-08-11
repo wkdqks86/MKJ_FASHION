@@ -16,7 +16,14 @@ import {
 import { fetchCurrentUser } from '@/utils/authSession'
 import './Header.css'
 
-const NAV_ITEMS = ['NEW', 'DESIGNERS', 'MEN', 'WOMEN', 'LIFE', 'SALE']
+const NAV_ITEMS = [
+  { label: 'NEW', to: '/products' },
+  { label: 'DESIGNERS' },
+  { label: 'MEN', to: '/products/men' },
+  { label: 'WOMEN', to: '/products/women' },
+  { label: 'LIFE' },
+  { label: 'SALE', to: '/products/sale' },
+]
 
 function Header() {
   const navigate = useNavigate()
@@ -107,11 +114,17 @@ function Header() {
         </Link>
 
         <nav className="header__nav">
-          {NAV_ITEMS.map((item) => (
-            <a key={item} href="#" className="header__nav-link">
-              {item}
-            </a>
-          ))}
+          {NAV_ITEMS.map((item) =>
+            item.to ? (
+              <Link key={item.label} to={item.to} className="header__nav-link">
+                {item.label}
+              </Link>
+            ) : (
+              <span key={item.label} className="header__nav-link header__nav-link--disabled">
+                {item.label}
+              </span>
+            ),
+          )}
         </nav>
 
         <div className="header__actions">

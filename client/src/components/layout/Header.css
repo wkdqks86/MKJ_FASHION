@@ -46,6 +46,15 @@
   opacity: 0.75;
 }
 
+.header__nav-link--disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.header__nav-link--disabled:hover {
+  opacity: 0.55;
+}
+
 .header__actions {
   display: flex;
   align-items: center;

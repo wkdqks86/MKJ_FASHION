@@ -1,20 +1,5 @@
-import { useState } from 'react'
+import HomeProductImage from '@/components/home/HomeProductImage'
 import ProductCarousel from '@/components/home/ProductCarousel'
-import { FALLBACK_IMAGE } from '@/constants/homeProducts'
-
-function EditImage({ product, className }) {
-  const [src, setSrc] = useState(product?.image || FALLBACK_IMAGE)
-
-  return (
-    <img
-      src={src}
-      alt={product?.name || 'The Edit'}
-      className={className}
-      loading="lazy"
-      onError={() => setSrc(FALLBACK_IMAGE)}
-    />
-  )
-}
 
 function ProductSection({ title, subtitle, products, sectionId, editMode = false, theEdit }) {
   if (editMode && theEdit) {
@@ -29,7 +14,7 @@ function ProductSection({ title, subtitle, products, sectionId, editMode = false
           </div>
           <div className="the-edit">
             <div className="the-edit__main-wrap">
-              <EditImage product={main} className="the-edit__main" />
+              <HomeProductImage product={main} className="the-edit__main" />
               {main && (
                 <div className="the-edit__main-info">
                   <p>{main.brand}</p>
@@ -41,7 +26,7 @@ function ProductSection({ title, subtitle, products, sectionId, editMode = false
             <div className="the-edit__side">
               {side.map((product) => (
                 <div key={product.id} className="the-edit__side-item">
-                  <EditImage product={product} className="the-edit__side-img" />
+                  <HomeProductImage product={product} className="the-edit__side-img" />
                   <p>{product.name}</p>
                 </div>
               ))}

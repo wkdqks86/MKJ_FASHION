@@ -1,18 +1,4 @@
-import { useState } from 'react'
-import { FALLBACK_IMAGE } from '@/constants/homeProducts'
-
-function HeroImage({ product }) {
-  const [src, setSrc] = useState(product?.image || FALLBACK_IMAGE)
-
-  return (
-    <img
-      src={src}
-      alt={product?.name || 'MKJ FASHION'}
-      className="hero__product-img"
-      onError={() => setSrc(FALLBACK_IMAGE)}
-    />
-  )
-}
+import HomeProductImage from '@/components/home/HomeProductImage'
 
 function HeroSection({ heroProduct }) {
   const handleShopNow = (event) => {
@@ -40,7 +26,9 @@ function HeroSection({ heroProduct }) {
         )}
       </div>
       <div className="hero__visual">
-        <HeroImage product={heroProduct} />
+        {heroProduct && (
+          <HomeProductImage product={heroProduct} className="hero__product-img" alt="MKJ FASHION" />
+        )}
         <div className="hero__tag">
           <span>SALE</span>
         </div>
