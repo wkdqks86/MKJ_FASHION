@@ -62,6 +62,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   background: none;
   border: none;
   color: #fff;
@@ -72,10 +73,6 @@
 
 .header__icon-btn:hover {
   opacity: 0.75;
-}
-
-.header__icon-btn--cart {
-  position: relative;
 }
 
 .header__cart-badge {

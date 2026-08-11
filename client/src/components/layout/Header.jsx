@@ -127,7 +127,7 @@ function Header() {
                 </span>
               )}
             </Link>
-            <Link to="/cart" className="header__icon-btn header__icon-btn--cart" aria-label="장바구니">
+            <Link to="/cart" className="header__icon-btn" aria-label="장바구니">
               <BagIcon />
               {cartCount > 0 && (
                 <span className="header__cart-badge" aria-hidden="true">
