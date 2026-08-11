@@ -1,5 +1,5 @@
 import { formatCategoryLabel } from '@/constants/productCategories'
-import { FALLBACK_HOME_PRODUCTS } from '@/constants/homeProducts'
+import { BRAND_LIVE_HERO_SKUS, FALLBACK_HOME_PRODUCTS } from '@/constants/homeProducts'
 
 export function shuffleArray(items) {
   const copy = [...items]
@@ -21,6 +21,7 @@ export function mapProductForHomeCard(product) {
     price: displayPrice.toLocaleString('ko-KR'),
     listPrice: product.listPrice?.toLocaleString('ko-KR'),
     image: product.image,
+    sku: product.sku,
     hasDiscount,
     discountRate: product.discountRate,
   }
@@ -42,24 +43,17 @@ function padWithFallbacks(items, count) {
   return result
 }
 
-/** 배경·연출이 있는 라이프스타일型 상품 이미지 (스튜디오 단색 배경 제외) */
-export function isLikelyLifestyleImage(imageUrl = '') {
-  const url = imageUrl.toLowerCase()
-  return (
-    url.includes('unsplash.com')
-    || url.includes('pexels.com')
-    || url.includes('images.pexels.com')
+function pickBrandLiveHero(products) {
+  const skuSet = new Set(BRAND_LIVE_HERO_SKUS.map((sku) => sku.toUpperCase()))
+  const candidates = products.filter((product) =>
+    skuSet.has(String(product.sku || '').toUpperCase()),
   )
-}
 
-function pickBrandLiveHero(mappedProducts) {
-  const lifestyleFromApi = mappedProducts.filter((product) =>
-    isLikelyLifestyleImage(product.image),
-  )
-  const lifestyleFallbacks = FALLBACK_HOME_PRODUCTS.map((item) => ({ ...item }))
-  const candidates = lifestyleFromApi.length > 0 ? lifestyleFromApi : lifestyleFallbacks
+  if (candidates.length === 0) {
+    return null
+  }
 
-  return shuffleArray(candidates)[0]
+  return mapProductForHomeCard(shuffleArray(candidates)[0])
 }
 
 export function buildHomeLayout(products) {
@@ -75,7 +69,7 @@ export function buildHomeLayout(products) {
     keywordSub: pool[5],
     brandLive: {
       left: [pool[6], pool[7]],
-      hero: pickBrandLiveHero(mapped),
+      hero: pickBrandLiveHero(products),
     },
     brandNew: pool.slice(0, 5),
     brandBest: pool.slice(5, 10),

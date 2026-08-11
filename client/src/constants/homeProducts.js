@@ -11,6 +11,16 @@ export const KEYWORDS = [
   { rank: 10, label: 'BELT' },
 ]
 
+/** BRAND LIVE 우측 히어로에 사용할 상품 SKU (재방문·새로고침 시 랜덤) */
+export const BRAND_LIVE_HERO_SKUS = [
+  'MKJ-MBTM-000002',
+  'MKJ-FTOP-000004',
+  'MKJ-MTOP-000005',
+  'MKJ-FACC-000005',
+  'MKJ-FACC-000001',
+  'MKJ-FACC-000004',
+]
+
 /** API 상품이 부족할 때 메인 페이지 장식·폴백용 */
 export const FALLBACK_HOME_PRODUCTS = [
   { id: 'fb-1', brand: 'MKJ STUDIO', name: '오버핏 코튼 셔츠', price: '89,000', image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&h=780&fit=crop&auto=format' },
