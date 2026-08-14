@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { getProducts } from '@/api/products'
 import PageBreadcrumb from '@/components/common/PageBreadcrumb'
 import ProductCard from '@/components/product/ProductCard'
@@ -34,7 +34,25 @@ const LIST_CONFIG = {
   },
 }
 
+function filterProductsByQuery(products, query) {
+  const normalized = query.trim().toLowerCase()
+  if (!normalized) return products
+
+  return products.filter((product) => {
+    const name = product.name?.toLowerCase() ?? ''
+    const sku = product.sku?.toLowerCase() ?? ''
+    const description = product.description?.toLowerCase() ?? ''
+    return (
+      name.includes(normalized)
+      || sku.includes(normalized)
+      || description.includes(normalized)
+    )
+  })
+}
+
 function ProductListPage({ variant = 'all' }) {
+  const [searchParams] = useSearchParams()
+  const searchQuery = searchParams.get('q')?.trim() ?? ''
   const config = LIST_CONFIG[variant] ?? LIST_CONFIG.all
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -84,7 +102,19 @@ function ProductListPage({ variant = 'all' }) {
     }
   }, [config.gender, config.onSale])
 
-  const cards = useMemo(() => products.map(mapProductForHomeCard), [products])
+  const filteredProducts = useMemo(
+    () => filterProductsByQuery(products, searchQuery),
+    [products, searchQuery],
+  )
+
+  const cards = useMemo(
+    () => filteredProducts.map(mapProductForHomeCard),
+    [filteredProducts],
+  )
+
+  const pageTitle = searchQuery ? 'SEARCH' : config.title
+  const pageSubtitle = searchQuery ? `"${searchQuery}" 검색 결과` : config.subtitle
+  const breadcrumbLabel = searchQuery ? '검색' : config.breadcrumb
 
   return (
     <div className="product-list-page">
@@ -92,14 +122,14 @@ function ProductListPage({ variant = 'all' }) {
         className="product-list-page__breadcrumb"
         items={[
           { label: 'HOME', to: '/' },
-          { label: config.breadcrumb },
+          { label: breadcrumbLabel },
         ]}
       />
 
       <div className="product-list-page__inner">
         <header className="product-list-page__header">
-          <h1 className="product-list-page__title">{config.title}</h1>
-          <p className="product-list-page__subtitle">{config.subtitle}</p>
+          <h1 className="product-list-page__title">{pageTitle}</h1>
+          <p className="product-list-page__subtitle">{pageSubtitle}</p>
           {!isLoading && !error && (
             <p className="product-list-page__count">{cards.length}개 상품</p>
           )}
@@ -117,7 +147,7 @@ function ProductListPage({ variant = 'all' }) {
 
         {!isLoading && !error && cards.length === 0 && (
           <div className="product-list-page__empty">
-            <p>표시할 상품이 없습니다.</p>
+            <p>{searchQuery ? '검색 결과가 없습니다.' : '표시할 상품이 없습니다.'}</p>
             <Link to="/" className="product-list-page__home-link">
               홈으로 돌아가기
             </Link>

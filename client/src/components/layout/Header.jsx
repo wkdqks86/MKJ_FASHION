@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { logoutUser } from '@/api/auth'
 import { getMyCart } from '@/api/carts'
@@ -25,12 +25,72 @@ const NAV_ITEMS = [
   { label: 'SALE', to: '/products/sale' },
 ]
 
+function NavItem({ item, className = 'header__nav-link' }) {
+  if (item.to) {
+    return (
+      <Link to={item.to} className={className}>
+        {item.label}
+      </Link>
+    )
+  }
+
+  return (
+    <span className={`${className} header__nav-link--disabled`}>
+      {item.label}
+    </span>
+  )
+}
+
+function useMobileNavVisibleCount() {
+  const [visibleCount, setVisibleCount] = useState(2)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 520px)')
+
+    const update = () => {
+      setVisibleCount(mediaQuery.matches ? 3 : 2)
+    }
+
+    update()
+    mediaQuery.addEventListener('change', update)
+    return () => mediaQuery.removeEventListener('change', update)
+  }, [])
+
+  return visibleCount
+}
+
+function useIsMobileHeader() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 900px)')
+
+    const update = () => {
+      setIsMobile(mediaQuery.matches)
+    }
+
+    update()
+    mediaQuery.addEventListener('change', update)
+    return () => mediaQuery.removeEventListener('change', update)
+  }, [])
+
+  return isMobile
+}
+
 function Header() {
   const navigate = useNavigate()
+  const searchInputRef = useRef(null)
   const [user, setUser] = useState(null)
   const [guest, setGuest] = useState(null)
   const [cartCount, setCartCount] = useState(0)
   const [wishlistCount, setWishlistCount] = useState(0)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [mobileNavIndex, setMobileNavIndex] = useState(0)
+  const mobileNavVisibleCount = useMobileNavVisibleCount()
+  const isMobileHeader = useIsMobileHeader()
+
+  const maxMobileNavIndex = Math.max(0, NAV_ITEMS.length - mobileNavVisibleCount)
 
   const syncAuthState = useCallback(async () => {
     if (!getAccessToken()) {
@@ -90,6 +150,16 @@ function Header() {
     return () => window.removeEventListener(WISHLIST_CHANGE_EVENT, syncWishlistCount)
   }, [syncWishlistCount, user])
 
+  useEffect(() => {
+    setMobileNavIndex((current) => Math.min(current, maxMobileNavIndex))
+  }, [maxMobileNavIndex])
+
+  useEffect(() => {
+    if (isSearchOpen) {
+      searchInputRef.current?.focus()
+    }
+  }, [isSearchOpen])
+
   const handleLogout = async () => {
     const refreshToken = getRefreshToken()
 
@@ -106,6 +176,28 @@ function Header() {
     }
   }
 
+  const toggleSearch = () => {
+    setIsSearchOpen((open) => !open)
+  }
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault()
+    const query = searchQuery.trim()
+    if (!query) return
+
+    setIsSearchOpen(false)
+    navigate(`/products?q=${encodeURIComponent(query)}`)
+  }
+
+  const scrollMobileNav = (direction) => {
+    setMobileNavIndex((current) => {
+      if (direction === 'prev') {
+        return Math.max(0, current - 1)
+      }
+      return Math.min(maxMobileNavIndex, current + 1)
+    })
+  }
+
   return (
     <header className="header">
       <div className="header__inner">
@@ -113,25 +205,82 @@ function Header() {
           MKJ FASHION
         </Link>
 
-        <nav className="header__nav">
-          {NAV_ITEMS.map((item) =>
-            item.to ? (
-              <Link key={item.label} to={item.to} className="header__nav-link">
-                {item.label}
-              </Link>
-            ) : (
-              <span key={item.label} className="header__nav-link header__nav-link--disabled">
-                {item.label}
-              </span>
-            ),
-          )}
+        <nav className="header__nav" aria-label="주요 메뉴">
+          {NAV_ITEMS.map((item) => (
+            <NavItem key={item.label} item={item} />
+          ))}
+        </nav>
+
+        <nav className="header__mobile-nav" aria-label="모바일 메뉴">
+          <button
+            type="button"
+            className="header__nav-scroll"
+            aria-label="이전 메뉴"
+            onClick={() => scrollMobileNav('prev')}
+            disabled={mobileNavIndex === 0}
+          >
+            ◁
+          </button>
+
+          <div className="header__mobile-nav-viewport">
+            <div
+              className="header__mobile-nav-track"
+              style={{
+                width: `${(NAV_ITEMS.length / mobileNavVisibleCount) * 100}%`,
+                transform: `translateX(-${(mobileNavIndex / NAV_ITEMS.length) * 100}%)`,
+              }}
+            >
+              {NAV_ITEMS.map((item) => (
+                <NavItem
+                  key={item.label}
+                  item={item}
+                  className="header__mobile-nav-link"
+                />
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="header__nav-scroll"
+            aria-label="다음 메뉴"
+            onClick={() => scrollMobileNav('next')}
+            disabled={mobileNavIndex >= maxMobileNavIndex}
+          >
+            ▷
+          </button>
         </nav>
 
         <div className="header__actions">
           <div className="header__icons">
-            <button type="button" className="header__icon-btn" aria-label="검색">
+            {isSearchOpen && !isMobileHeader && (
+              <form
+                className="header__search-form header__search-form--desktop"
+                onSubmit={handleSearchSubmit}
+                role="search"
+              >
+                <input
+                  ref={searchInputRef}
+                  type="search"
+                  className="header__search-input"
+                  placeholder="상품명, SKU 검색"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  aria-label="상품 검색"
+                />
+              </form>
+            )}
+
+            <button
+              type="button"
+              className={`header__icon-btn${isSearchOpen ? ' header__icon-btn--active' : ''}`}
+              aria-label={isSearchOpen ? '검색 닫기' : '검색'}
+              aria-expanded={isSearchOpen}
+              onClick={toggleSearch}
+            >
               <SearchIcon />
             </button>
+
             <Link to="/wishlist" className="header__icon-btn" aria-label="위시리스트">
               <HeartIcon />
               {wishlistCount > 0 && (
@@ -140,6 +289,7 @@ function Header() {
                 </span>
               )}
             </Link>
+
             <Link to="/cart" className="header__icon-btn" aria-label="장바구니">
               <BagIcon />
               {cartCount > 0 && (
@@ -182,6 +332,24 @@ function Header() {
             )}
           </div>
         </div>
+
+        {isSearchOpen && isMobileHeader && (
+          <form
+            className="header__search-form header__search-form--mobile"
+            onSubmit={handleSearchSubmit}
+            role="search"
+          >
+            <input
+              ref={searchInputRef}
+              type="search"
+              className="header__search-input"
+              placeholder="상품명, SKU 검색"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              aria-label="상품 검색"
+            />
+          </form>
+        )}
       </div>
     </header>
   )
