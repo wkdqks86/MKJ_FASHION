@@ -74,21 +74,21 @@
 @media (max-width: 900px) {
   .chat-toast {
     top: calc(var(--site-header-height, 140px) + 0.5rem);
-    left: 50%;
-    right: auto;
+    right: 1rem;
+    left: auto;
     width: min(268px, calc(100% - 2rem));
     max-width: none;
     gap: 0.5rem;
-    transform: translateX(-50%) translateY(-12px);
+    transform: translateY(-12px);
   }
 
   .chat-toast--enter,
   .chat-toast--visible {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
 
   .chat-toast--exit {
-    transform: translateX(-50%) translateY(-10px);
+    transform: translateY(-10px);
   }
 
   .chat-toast__avatar {
