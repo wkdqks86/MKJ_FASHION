@@ -79,6 +79,7 @@ function useIsMobileHeader() {
 
 function Header() {
   const navigate = useNavigate()
+  const headerRef = useRef(null)
   const searchInputRef = useRef(null)
   const [user, setUser] = useState(null)
   const [guest, setGuest] = useState(null)
@@ -160,6 +161,29 @@ function Header() {
     }
   }, [isSearchOpen])
 
+  useEffect(() => {
+    const header = headerRef.current
+    if (!header) return undefined
+
+    const updateHeaderHeight = () => {
+      document.documentElement.style.setProperty(
+        '--site-header-height',
+        `${header.offsetHeight}px`,
+      )
+    }
+
+    updateHeaderHeight()
+
+    const observer = new ResizeObserver(updateHeaderHeight)
+    observer.observe(header)
+    window.addEventListener('resize', updateHeaderHeight)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', updateHeaderHeight)
+    }
+  }, [])
+
   const handleLogout = async () => {
     const refreshToken = getRefreshToken()
 
@@ -199,7 +223,7 @@ function Header() {
   }
 
   return (
-    <header className="header">
+    <header className="header" ref={headerRef}>
       <div className="header__inner">
         <Link to="/" className="header__logo">
           MKJ FASHION
